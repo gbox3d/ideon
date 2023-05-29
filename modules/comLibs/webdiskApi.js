@@ -1,5 +1,30 @@
 let host_url = '';
 
+export function makeFileObj(file) {
+
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', (evt) => {
+      resolve({
+        file: file,
+        data: evt.target.result
+      });
+    });
+    reader.readAsArrayBuffer(file);
+  })
+}
+
+export function makeFormBody(data) {
+  return Object.keys(data).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key])).join('&');
+}
+
+export function set_host_url(url) {
+  host_url = url;
+}
+export function get_host_url() {
+  return host_url;
+}
+
 export async function get_file_list(path, jwt_token) {
   return await (
     await fetch(`${host_url}/api/v2/webdisk/ls`, {
@@ -84,24 +109,13 @@ export async function uploadBufferess(path, upload_name, fileObj, jwt_token) {
 
     const reader = new FileReader();
 
-    // const _fileObj = fileObj;
-
     reader.addEventListener('load', async (_) => {
-
-      // console.log(_.target.result)
-      // console.log(_fileObj)
-      // let upload_name = _fileObj
-      // const jwt_token = jwt_token;
       const _path = path
-
-      // infoText.innerText = `now uploading... ${upload_name}`
       console.log(`now uploading... ${upload_name}`)
 
       try {
 
-        let _url = `/api/v2/uploader/bufferless`;
-
-        console.log(_url);
+        let _url = `${host_url}/api/v2/uploader/bufferless`;
 
         let _ = await (await (fetch(_url, {
           method: 'POST',
@@ -111,24 +125,25 @@ export async function uploadBufferess(path, upload_name, fileObj, jwt_token) {
             'Content-Type': fileObj.type,
             'upload-name': upload_name,
             'upload-path': _path,
-            // 'auth-token': localStorage.getItem('authToken')
             'authorization': jwt_token
           })
         }))).json();
 
-        console.log(`upload ${upload_name}...ok`)
+        // console.log(`upload ${upload_name}...ok`)
         resolve(_)
 
       } catch (error) {
         console.log(error)
-        this.infoText.innerText = error
-        reject(error)
+        // this.infoText.innerText = error
+        reject({
+          r: 'error',
+          error: error
+        })
       }
     })
     reader.readAsArrayBuffer(fileObj);
   })
 }
-
 
 export async function readFile(path, file, jwt_token) {
 
@@ -159,7 +174,7 @@ export async function readFile(path, file, jwt_token) {
     }
     else if (contentType.includes('text')) {
       let text = await resp.text()
-      
+
       return {
         type: 'text',
         data: text
@@ -208,5 +223,25 @@ export async function readFile(path, file, jwt_token) {
   else {
     alert('read error')
   }
+}
+
+export async function writeFile({ path, fileName, data, jwt_token }) {
+
+  let params = {
+    path : path,
+    fileName : fileName
+  };
+
+  const query = makeFormBody(params);
+
+  return await (await fetch(`${host_url}/api/v2/webdisk/writeFile`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain',
+      'authorization': jwt_token,
+      query : query
+    },
+    body: data
+  })).json();
 }
 
