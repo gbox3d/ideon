@@ -77,6 +77,30 @@ export default async function ({
         _onSelectCallback?.(res);
     }
 
+    function _SelectNext() {
+        const list = _fileList.children;
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].classList.contains('w3-indigo')) {
+                if (i + 1 < list.length) {
+                    list[i + 1].click();
+                }
+                break;
+            }
+        }
+    }
+
+    function _SelectPrev() {
+        const list = _fileList.children;
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].classList.contains('w3-indigo')) {
+                if (i - 1 >= 0) {
+                    list[i - 1].click();
+                }
+                break;
+            }
+        }
+    }
+
     function _onSelectFolder(evt) {
         const target = evt.target;
 
@@ -235,7 +259,9 @@ export default async function ({
                     size: parseInt(li.dataset.size)
                 }
             });
-        }
+        },
+        selectNext: _SelectNext,
+        selectPrev: _SelectPrev
 
     }
 }
