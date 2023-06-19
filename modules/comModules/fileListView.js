@@ -243,6 +243,13 @@ export default async function ({
                 list[i].checked = false;
             }
         },
+        selectAll : function() {
+            const list = _fileList.querySelectorAll('li .item-checkbox');
+            for (let i = 0; i < list.length; i++) {
+                list[i].checked = true;
+            }
+
+        },
         getCurrentDir: function () {
             return currentDir;
         },
