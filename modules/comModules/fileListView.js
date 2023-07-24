@@ -203,7 +203,8 @@ export default async function ({
                     _dirInfo.innerText = currentDir;
                 }
                 else {
-                    console.log('error');
+                    alert('error : can not get file list');
+                    console.log('error',res);
                 }
 
             }
@@ -267,6 +268,49 @@ export default async function ({
                 }
             });
         },
+        getCurrentSelection: function () {
+            const selectedElement = _fileList.querySelector('li.w3-indigo');
+            
+            // 만약 선택된 항목이 없다면, null을 반환합니다.
+            if (!selectedElement) {
+                return null;
+            }
+            
+            // 선택된 항목의 데이터를 반환합니다.
+            return {
+                name: selectedElement.dataset.name,
+                type: parseInt(selectedElement.dataset.type),
+                size: parseInt(selectedElement.dataset.size)
+            };
+        },
+        scrollToSelection: function () {
+            const selectedElement = _fileList.querySelector('li.w3-indigo');
+            
+            // 만약 선택된 항목이 있다면, 그 항목이 보이도록 스크롤합니다.
+            if (selectedElement) {
+                selectedElement.scrollIntoView({block: 'nearest', inline: 'start'});
+            }
+        },
+        scrollToTop: function () {
+            _fileList.scrollTop = 0;
+        },
+        selectByIndex: function (index) {
+            const list = _fileList.children;
+        
+            // 인덱스 유효성 검사
+            if (index < 0 || index >= list.length) {
+                console.log('Index out of range');
+                return;
+            }
+        
+            // 선택 해제
+            for (let i = 0; i < list.length; i++) {
+                list[i].classList.remove('w3-indigo');
+            }
+        
+            // 지정된 인덱스 선택
+            list[index].click();
+        },        
         selectNext: _SelectNext,
         selectPrev: _SelectPrev
 
