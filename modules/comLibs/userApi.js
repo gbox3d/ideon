@@ -24,7 +24,7 @@ async function fetchUserList(page, limit) {
     return null;
 }
 
-async function deleteUser(userId) {
+async function deleteUser(option) {
     try {
         const response = await fetch('/api/v2/users/delete', {
             method: 'POST',
@@ -32,7 +32,7 @@ async function deleteUser(userId) {
                 'Content-Type': 'application/json',
                 'authorization': localStorage.getItem('jwt_token')
             },
-            body: JSON.stringify({ userId })
+            body: JSON.stringify({option})
         });
 
         if (response.ok) {

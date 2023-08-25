@@ -116,6 +116,7 @@ export async function uploadBufferess(path, upload_name, fileObj, jwt_token) {
       try {
 
         let _url = `${host_url}/api/v2/uploader/bufferless`;
+        let encodedUploadName = encodeURIComponent(upload_name); // 인코딩
 
         let _ = await (await (fetch(_url, {
           method: 'POST',
@@ -123,15 +124,13 @@ export async function uploadBufferess(path, upload_name, fileObj, jwt_token) {
           // 이 부분은 따로 설정하고싶은 header가 있다면 넣으세요, 헤더이름은 대소 문자를 구분하지않음 무조건 소문자 취급
           headers: new Headers({
             'Content-Type': fileObj.type,
-            'upload-name': upload_name,
+            'upload-name': encodedUploadName,
             'upload-path': _path,
             'authorization': jwt_token
           })
-        }))).json();
-
-        // console.log(`upload ${upload_name}...ok`)
+        }))).json();        
         resolve(_)
-
+        
       } catch (error) {
         console.log(error)
         // this.infoText.innerText = error
