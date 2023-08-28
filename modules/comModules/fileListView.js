@@ -54,6 +54,8 @@ export default async function ({
     _fileList.style.overflow = 'auto';
 
     let currentDir = './';
+    let prevDir = './';
+
     let _onSelectCallback = onSelectCallback;
 
     async function _onSelectFile(evt) {
@@ -196,17 +198,18 @@ export default async function ({
 
                 if (res.r === 'ok') {
                     const filelist = res.list;
-                    // console.log(filelist);
-
                     __updateList(filelist);
-
                     _dirInfo.innerText = currentDir;
                 }
                 else {
-                    alert('error : can not get file list');
+
+                    currentDir = prevDir;
+                    _updateList();
+
+                    alert(`err : ${res.msg}`);
                     console.log('error',res);
                 }
-
+                return res;
             }
             catch (err) {
                 console.error(err);
@@ -255,6 +258,7 @@ export default async function ({
             return currentDir;
         },
         setCurrentDir: function (dir) {
+            prevDir = currentDir;
             currentDir = dir;
         },
         getFileList() {
