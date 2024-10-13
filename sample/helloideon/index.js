@@ -1,5 +1,5 @@
-import * as THREE from 'three';
-import WEBGL from 'three/addons/capabilities/WebGL.js';
+// import * as THREE from 'three';
+// import WEBGL from 'three/addons/capabilities/WebGL.js';
 
 //forms
 import uiMainSetup from './form/uiMain.js';
@@ -12,8 +12,8 @@ import messageModal from 'ideon/messageModal.js';
 
 async function main() {
 
-    console.log(`THREEJS Version : ${THREE.REVISION} `);
-    console.log(`WebGL Support : ${WEBGL.isWebGL2Available()}`);
+    // console.log(`THREEJS Version : ${THREE.REVISION} `);
+    // console.log(`WebGL Support : ${WEBGL.isWebGL2Available()}`);
 
     const titleBar = document.querySelector('#title-bar')
     titleBar.innerHTML = 'Hello Ideon';
