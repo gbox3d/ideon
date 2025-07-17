@@ -6,6 +6,7 @@ import {
     create_folder,
     remove_folder,
     uploadBufferess,
+    set_host_url,
     readFile
 } from 'ideon/comLibs/webdiskApi.js';
 
@@ -13,7 +14,8 @@ export default async function ({
     Context,
     onSelectCallback = null,
     width = 300,
-    height = 500
+    height = 500,
+    
 }) {
 
     const _htmlText = `
@@ -57,6 +59,9 @@ export default async function ({
     let prevDir = './';
 
     let _onSelectCallback = onSelectCallback;
+
+
+    set_host_url(_Context.host_url);
 
     async function _onSelectFile(evt) {
 

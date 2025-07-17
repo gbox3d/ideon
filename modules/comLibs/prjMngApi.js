@@ -1,6 +1,10 @@
+let host_url = localStorage.getItem("DALLOS_API_URL");
+
+console.log("prjmngApi.js read host_url", host_url);
+
 async function fetchPrjList(token, page, count = 10) {
     try {
-        const response = await fetch(`/api/v2/projects/list?page=${page}&limit=${count}`, {
+        const response = await fetch(`${host_url}/api/v2/projects/list?page=${page}&limit=${count}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +27,7 @@ async function fetchPrjList(token, page, count = 10) {
 
 async function fetchPrjDel(token,prjId) {
     try {
-        const response = await fetch("/api/v2/projects/delete", {
+        const response = await fetch(`${host_url}/api/v2/projects/delete`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -59,7 +63,7 @@ async function fetchPrjDetail({
 
     try {
 
-        const response = await fetch("/api/v2/projects/find", {
+        const response = await fetch(`${host_url}/api/v2/projects/find`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -95,7 +99,7 @@ async function fetchPrjEdit(token,prj) {
 
     try {
 
-        const response = await fetch("/api/v2/projects/update", {
+        const response = await fetch(`${host_url}/api/v2/projects/update`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -129,7 +133,7 @@ async function fetchPrjEdit(token,prj) {
 
 async function fetchPrjAdd(token,prj) {
     try {
-        const response = await fetch('/api/v2/projects/add', {
+        const response = await fetch(`${host_url}/api/v2/projects/add`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
